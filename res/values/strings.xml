@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SCOS</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="orderdishs">点菜</string>
+    <string name="findorder">查看订单</string>
+    <string name="home">主页</string>
+    <string name="helper">帮助</string>
+    <string name="testexample">test</string>
+</resources>

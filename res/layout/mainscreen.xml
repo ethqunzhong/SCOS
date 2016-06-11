@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/div_white"
+                android:baselineAligned="false"
+                android:orientation="vertical">
+    <RelativeLayout android:id="@+id/topbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/bg_topbar">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/text_topbar"
+                android:text="Just for Test."/>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/div_white"
+                android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <LinearLayout
+            android:id="@+id/ly_tab_bar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/bg_white"
+            android:orientation="horizontal">
+        <Button
+                android:id="@+id/txt_orderdishs"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+                android:drawablePadding="3dp"
+                android:drawableTop="@drawable/tab_menu_orderdish"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/orderdishs"
+                android:textColor="@drawable/tab_menu_text"
+                android:textSize="16sp" />
+
+        <Button
+                android:id="@+id/txt_findorder"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+                android:drawablePadding="3dp"
+                android:drawableTop="@drawable/tab_menu_findorder"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/findorder"
+                android:textColor="@drawable/tab_menu_text"
+                android:textSize="16sp" />
+
+        <Button
+                android:id="@+id/txt_home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+                android:drawablePadding="3dp"
+                android:drawableTop="@drawable/tab_menu_home"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/home"
+                android:textColor="@drawable/tab_menu_text"
+                android:textSize="16sp" />
+
+        <Button
+                android:id="@+id/txt_helper"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+                android:drawablePadding="3dp"
+                android:drawableTop="@drawable/tab_menu_helper"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/helper"
+                android:textColor="@drawable/tab_menu_text"
+                android:textSize="16sp"/>
+
+    </LinearLayout>
+    <View
+            android:id="@+id/div_tab_bar"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/div_white"
+            android:layout_above="@id/topbar"/>
+
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/div_tab_bar"
+            android:layout_above="@id/topbar"
+            android:id="@+id/ly_content">
+    </FrameLayout>
+</RelativeLayout>
