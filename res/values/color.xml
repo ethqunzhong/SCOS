@@ -4,6 +4,9 @@
     <color name="bg_white">#FFFFFF</color>
     <color name="bg_topbar">#FCFCFC</color>
     <color name="bg_gray">#00F1F1F1</color>
+    <color name="bg_seabule">#0099CC</color>
+    <color name="bg_green">#99CC00</color>
+    <color name="bg_brightred">#CC3333</color>
     <color name="transparent">#00FFFFFF</color>
 
 

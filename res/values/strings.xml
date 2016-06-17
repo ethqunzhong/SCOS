@@ -7,4 +7,11 @@
     <string name="home">主页</string>
     <string name="helper">帮助</string>
     <string name="testexample">test</string>
+    <string name="login_button">登录</string>
+    <string name="register_button">注册</string>
+    <string name="cancel_button">返回</string>
+    <string name="colddish">冷菜</string>
+    <string name="hotdish">热菜</string>
+    <string name="seafood">海鲜</string>
+    <string name="drinks">酒水</string>
 </resources>

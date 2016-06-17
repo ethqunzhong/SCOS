@@ -61,11 +61,15 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="55dp"
-                android:text="登录"/>
+                android:text="@string/login_button"/>
+        <Button android:id="@+id/lay_register_button"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/register_button"/>
         <Button android:id="@+id/lay_cancel_button"
                 android:layout_width="80dp"
-                android:text="返回"
-                android:layout_marginLeft="80dp"
+                android:text="@string/cancel_button"
+                android:layout_marginLeft="0dp"
                 android:layout_height="wrap_content"/>
 
     </LinearLayout>
