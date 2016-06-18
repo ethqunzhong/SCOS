@@ -32,12 +32,10 @@ public class FoodView extends Activity {
     private ViewPager viewPager;  //页卡内容
     private ImageView imageView; //动画图片
     private TextView textView1, textView2, textView3, textView4;
-    private List<View> views; //tab页面列表
     private int offset = 0;
     private int currIndex = 0; //当前页卡编号
     private int bmpW;
-    private View pageHot, pageCold, view3, view4;//各个页卡
-    private int button_status = 0;
+
     //    private List<Food> lvHot = new ArrayList<Food>();
     private ListView lvHot;
     private ListView lvCold;
@@ -65,10 +63,10 @@ public class FoodView extends Activity {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = getLayoutInflater();
         pageViews = new ArrayList<View>();
-        View pageCold = inflater.inflate(R.layout.colddish_list,null);
-        View pageHot = inflater.inflate(R.layout.hotdish_list,null);
-        View pageSeaFood = inflater.inflate(R.layout.seafood_list,null);
-        View pageWine = inflater.inflate(R.layout.drinks_list,null);
+        View pageCold = inflater.inflate(R.layout.colddish_list, null);
+        View pageHot = inflater.inflate(R.layout.hotdish_list, null);
+        View pageSeaFood = inflater.inflate(R.layout.seafood_list, null);
+        View pageWine = inflater.inflate(R.layout.drinks_list, null);
         pageViews.add(pageHot);
         pageViews.add(pageCold);
         pageViews.add(pageSeaFood);
@@ -80,19 +78,19 @@ public class FoodView extends Activity {
 //        setContentView(R.layout.drinks_list);
 //
 
-        lvCold = (ListView)pageCold.findViewById(R.id.listview_colddish);
-        lvHot = (ListView)pageHot.findViewById(R.id.listview_hotdish);
-        lvSeaFood = (ListView)pageSeaFood.findViewById(R.id.listview_seafood);
-        lvWine = (ListView)pageWine.findViewById(R.id.listview_drinks);
+        lvCold = (ListView) pageCold.findViewById(R.id.listview_colddish);
+        lvHot = (ListView) pageHot.findViewById(R.id.listview_hotdish);
+        lvSeaFood = (ListView) pageSeaFood.findViewById(R.id.listview_seafood);
+        lvWine = (ListView) pageWine.findViewById(R.id.listview_drinks);
 
-        if (lvCold==null){
-            Log.d("debug","lvcold still null");
+        if (lvCold == null) {
+            Log.d("debug", "lvcold still null");
         }
         listData = getListData();
-        lvHot.setAdapter(new FoodAdapter(this, LayoutInflater.from(this),HOT));
-        lvSeaFood.setAdapter(new FoodAdapter(this, LayoutInflater.from(this),SEAFOOD));
-        lvWine.setAdapter(new FoodAdapter(this, LayoutInflater.from(this),WINE));
-        lvCold.setAdapter(new FoodAdapter(this, LayoutInflater.from(this),COLD));
+        lvHot.setAdapter(new FoodAdapter(this, LayoutInflater.from(this), HOT));
+        lvSeaFood.setAdapter(new FoodAdapter(this, LayoutInflater.from(this), SEAFOOD));
+        lvWine.setAdapter(new FoodAdapter(this, LayoutInflater.from(this), WINE));
+        lvCold.setAdapter(new FoodAdapter(this, LayoutInflater.from(this), COLD));
 
 
 //        lvCold.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -135,8 +133,8 @@ public class FoodView extends Activity {
 //                        Toast.LENGTH_SHORT).show();
 //            }
 //        });
-        foodview = (ViewGroup)inflater.inflate(R.layout.food_view,null);
-        viewPager = (ViewPager)foodview.findViewById(R.id.dish_viewpager);
+        foodview = (ViewGroup) inflater.inflate(R.layout.food_view, null);
+        viewPager = (ViewPager) foodview.findViewById(R.id.dish_viewpager);
         setContentView(foodview);
         /**
          * 直接setContentView(R.layout.food_view)的话会报空指针错误
@@ -144,8 +142,8 @@ public class FoodView extends Activity {
 //        setContentView(R.layout.food_view);
         InitImageView();
         InitTextView();
-        if (pageViews==null){
-            Log.d("debug","pageViews null");
+        if (pageViews == null) {
+            Log.d("debug", "pageViews null");
         }
 //        GuidePageAdapter adapter=new GuidePageAdapter();
         viewPager.setAdapter(new GuidePageAdapter());
@@ -225,6 +223,7 @@ public class FoodView extends Activity {
         }
 
     }
+
     class GuidePageAdapter extends PagerAdapter {
         @Override
         public int getItemPosition(Object object) {
@@ -233,12 +232,12 @@ public class FoodView extends Activity {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager)container).removeView(pageViews.get(position));
+            ((ViewPager) container).removeView(pageViews.get(position));
         }
 
         @Override
         public Object instantiateItem(View container, int position) {
-            ((ViewPager)container).addView(pageViews.get(position));
+            ((ViewPager) container).addView(pageViews.get(position));
             return pageViews.get(position);
         }
 
@@ -249,41 +248,10 @@ public class FoodView extends Activity {
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view==object;
+            return view == object;
         }
     }
 
-
-//    public class MyViewPagerAdapter extends PagerAdapter {
-//        private List<View> mListViews;
-//
-//        public MyViewPagerAdapter(List<View> mListViews) {
-//            this.mListViews = mListViews;//构造方法，参数是我们的页卡，这样比较方便。
-//        }
-//
-//        //直接继承PagerAdapter，至少必须重写下面的四个方法，否则会报错
-//        @Override
-//        public void destroyItem(ViewGroup container, int position, Object object) {
-//            container.removeView(mListViews.get(position));//删除页卡
-//        }
-//
-//        @Override
-//        public Object instantiateItem(ViewGroup container, int position) {
-//            //这个方法用来实例化页卡
-//            container.addView(mListViews.get(position), 0);//添加页卡
-//            return mListViews.get(position);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return mListViews.size();//返回页卡的数量
-//        }
-//
-//        @Override
-//        public boolean isViewFromObject(View arg0, Object arg1) {
-//            return arg0 == arg1;//官方提示这样写
-//        }
-//    }
 
     public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
         int one = offset * 2 + bmpW;  //移动一页的偏移量,比如1->2,或者2->3
@@ -324,12 +292,7 @@ public class FoodView extends Activity {
         LayoutInflater layoutInflater;
         int index;
 
-//        public FoodAdapter(Context context) {
-//            this.context = context;
-//            this.index=index;
-//        }
-
-        FoodAdapter(Context context, LayoutInflater layoutInflater,int index) {
+        FoodAdapter(Context context, LayoutInflater layoutInflater, int index) {
             this.context = context;
             this.layoutInflater = layoutInflater;
             this.index = index;
@@ -359,7 +322,7 @@ public class FoodView extends Activity {
                 viewHolder = new ViewHolder();
                 viewHolder.nameView = (TextView) convertView.findViewById(R.id.food_detail_name);
                 viewHolder.priceView = (TextView) convertView.findViewById(R.id.food_detail_price);
-                viewHolder.button = (Button)convertView.findViewById(R.id.food_detail_button);
+                viewHolder.button = (Button) convertView.findViewById(R.id.food_detail_button);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -367,13 +330,13 @@ public class FoodView extends Activity {
             viewHolder.nameView.setText((String) listData.get(index).get(i).get("name"));
             viewHolder.priceView.setText(listData.get(index).get(i).get("price").toString());
             viewHolder.button.setText("点菜");
-            final Button nowButton = (Button)convertView.findViewById(R.id.food_detail_button);
+            final Button nowButton = (Button) convertView.findViewById(R.id.food_detail_button);
             nowButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if ("点菜"==nowButton.getText()) {
+                    if ("点菜" == nowButton.getText()) {
                         nowButton.setText("退点");
-                        Toast.makeText(FoodView.this,"点菜成功",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FoodView.this, "点菜成功", Toast.LENGTH_SHORT).show();
                     } else {
                         nowButton.setText("点菜");
                     }
@@ -391,32 +354,6 @@ public class FoodView extends Activity {
     }
 }
 
-///**
-// * 定义的Food类，用来实例化菜品
-// */
-//class Food {
-//    private String name;
-//    private String price;
-//    private int buttonId;
-//
-//    public Food(int buttonId, String name, String price) {
-//        this.buttonId = buttonId;
-//        this.name = name;
-//        this.price = price;
-//    }
-//
-//    public String getPrice() {
-//        return price;
-//    }
-//
-//    public int getButtonId() {
-//        return buttonId;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//}
 
 
 
