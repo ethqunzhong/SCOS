@@ -71,16 +71,16 @@ public class MainScreen extends Activity {
         /**
          * 主界面，查看订单按钮，点击进入 查看订单界面
          */
-        Button findorder=(Button) findViewById(R.id.txt_findorder);
-        findorder.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainScreen.this, "进入查看订单界面", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(MainScreen.this,OrderView.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-            }
-        });
+//        Button findorder=(Button) findViewById(R.id.txt_findorder);
+//        findorder.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(MainScreen.this, "进入查看订单界面", Toast.LENGTH_SHORT).show();
+//                Intent intent=new Intent(MainScreen.this,OrderView.class);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+//            }
+//        });
 
     }
 }

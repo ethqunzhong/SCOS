@@ -12,13 +12,6 @@ import android.view.Window;
 import android.widget.ImageView;
 
 
-//public class SCOSEntry extends Activity{
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.entry);
-//    }
-//}
 //实现接口和抽象类方法：快捷键 ctrl+I
 public class SCOSEntry extends Activity implements OnGestureListener, OnTouchListener {
     private GestureDetector detector;
