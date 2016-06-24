@@ -36,7 +36,7 @@
                   android:text="@string/drinks"/>
     </LinearLayout>
     <ImageView
-            android:id="@+id/img_cursor"
+            android:id="@+id/img_dishlist_cursor"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scaleType="matrix"

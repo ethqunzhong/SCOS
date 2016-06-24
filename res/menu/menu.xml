@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/dish_ordered"
+    <item android:id="@+id/dish_actionbar_ordered"
           android:title="已点菜品"
           android:showAsAction="never"/>
-    <item android:id="@+id/look_order"
+    <item android:id="@+id/dish_actionbar_findorder"
           android:title="查看订单"
           android:showAsAction="never"/>
-    <item android:id="@+id/call_for_serve"
+    <item android:id="@+id/dish_actionbar_callforserve"
           android:title="呼叫服务"
           android:showAsAction="never"/>
-
 </menu>

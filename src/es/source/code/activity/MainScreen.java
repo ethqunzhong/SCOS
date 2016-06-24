@@ -18,6 +18,7 @@ import es.source.code.model.User;
  */
 public class MainScreen extends Activity {
 
+    User user=new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +32,7 @@ public class MainScreen extends Activity {
         }else {
             setContentView(R.layout.mainscreen_hide);
         }
-        User user=new User();
+
         String user_string=getIntent().getStringExtra("string_data");
         if (user_string.equals("LoginSuccess")){
             user=(User) getIntent().getSerializableExtra("login_user_info");
@@ -49,6 +50,26 @@ public class MainScreen extends Activity {
             public void onClick(View view) {
                 Toast.makeText(MainScreen.this, "进入点菜界面", Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(MainScreen.this,FoodView.class);
+                Bundle bundle_order=new Bundle();
+                bundle_order.putSerializable("from_orderfood",user);
+                intent.putExtras(bundle_order);
+                startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            }
+        });
+
+        /**
+         * 主界面，查看订单按钮，点击进入 查看订单界面
+         */
+        Button findorder=(Button) findViewById(R.id.txt_findorder);
+        findorder.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainScreen.this, "进入查看订单界面", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(MainScreen.this,FoodOrderView.class);
+                Bundle bundle_findorder=new Bundle();
+                bundle_findorder.putSerializable("from_findorder",user);
+                intent.putExtras(bundle_findorder);
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
@@ -67,20 +88,6 @@ public class MainScreen extends Activity {
                 overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
         });
-
-        /**
-         * 主界面，查看订单按钮，点击进入 查看订单界面
-         */
-//        Button findorder=(Button) findViewById(R.id.txt_findorder);
-//        findorder.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(MainScreen.this, "进入查看订单界面", Toast.LENGTH_SHORT).show();
-//                Intent intent=new Intent(MainScreen.this,OrderView.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-//            }
-//        });
 
     }
 }

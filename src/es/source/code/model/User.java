@@ -12,32 +12,26 @@ public class User implements Serializable{
     private String password;
     private Boolean oldUser;
 
-//    public User(Boolean oldUser, String password, String userName) {
-//        this.oldUser = oldUser;
-//        this.password = password;
-//        this.userName = userName;
-//    }
-
-    public String getUserName() {
+    public final String getUserName() {
         return userName;
     }
-    public void setUserName(String userName) {
+    public final void setUserName(String userName) {
         this.userName = userName;
     }
 
-    public String getPassword() {
+    public final String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public final void setPassword(String password) {
         this.password = password;
     }
 
-    public Boolean getOldUser() {
+    public final Boolean getOldUser() {
         return oldUser;
     }
 
-    public void setOldUser(Boolean oldUser) {
+    public final void setOldUser(Boolean oldUser) {
         this.oldUser = oldUser;
     }
 }

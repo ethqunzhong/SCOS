@@ -15,6 +15,7 @@ import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.*;
+import es.source.code.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +49,36 @@ public class FoodView extends Activity {
     final int SEAFOOD = 2;
     final int WINE = 3;
 
+
+    User user=new User();
+
+    /**
+     * 设置item点击事件
+     * @param item  菜单item选项
+     * @return true
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.dish_actionbar_ordered:
+                Toast.makeText(this,"已点菜品",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.dish_actionbar_findorder:
+                Toast.makeText(this,"查看订单",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(FoodView.this,FoodOrderView.class);
+                intent.putExtra("page_select",1);
+                startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+                break;
+            case R.id.dish_actionbar_callforserve:
+                Toast.makeText(this,"呼叫服务",Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
     /**
      * 设置actionbar显示
      */
@@ -61,6 +92,7 @@ public class FoodView extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user=(User)getIntent().getSerializableExtra("from_orderfood");
         LayoutInflater inflater = getLayoutInflater();
         pageViews = new ArrayList<View>();
         View pageCold = inflater.inflate(R.layout.colddish_list, null);
@@ -72,11 +104,6 @@ public class FoodView extends Activity {
         pageViews.add(pageSeaFood);
         pageViews.add(pageWine);
 
-//        setContentView(R.layout.colddish_list);
-//        setContentView(R.layout.hotdish_list);
-//        setContentView(R.layout.seafood_list);
-//        setContentView(R.layout.drinks_list);
-//
 
         lvCold = (ListView) pageCold.findViewById(R.id.listview_colddish);
         lvHot = (ListView) pageHot.findViewById(R.id.listview_hotdish);
@@ -149,7 +176,6 @@ public class FoodView extends Activity {
         viewPager.setAdapter(new GuidePageAdapter());
         viewPager.setCurrentItem(0);
         viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
-
     }
 
     public List<ArrayList<HashMap<String, Object>>> getListData() {
@@ -196,7 +222,7 @@ public class FoodView extends Activity {
      * 这部分有待计算
      */
     private void InitImageView() {
-        imageView = (ImageView) findViewById(R.id.img_cursor);
+        imageView = (ImageView) findViewById(R.id.img_dishlist_cursor);
         bmpW = BitmapFactory.decodeResource(getResources(), R.mipmap.line).getWidth();// 获取图片宽度
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
