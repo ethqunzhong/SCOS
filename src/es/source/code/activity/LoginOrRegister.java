@@ -16,15 +16,21 @@ import java.util.Set;
 
 
 public class LoginOrRegister extends Activity {
-
+    //多进程Preferences数据共享  代码片段-收藏
     private SharedPreferences.Editor userName;
     private SharedPreferences.Editor loginState;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.home_login);
+
+        Button login = (Button) findViewById(R.id.lay_login_button);
+        Button register = (Button) findViewById(R.id.lay_register_button);
+        EditText username = (EditText) findViewById(R.id.txt_username);
+        EditText password = (EditText) findViewById(R.id.txt_password);
         /**
          * 点击返回按钮时，屏幕跳转到MainScreen
          * 并像MainScreen传String值“Return”
@@ -40,13 +46,23 @@ public class LoginOrRegister extends Activity {
 //                intent.putExtra("from_cancel_button", "Return");
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+//                SharedPreferences getusername = getSharedPreferences("userName", MODE_PRIVATE);
+//                if (!getusername.getBoolean(username.getText().toString(), false)) {
+//                    loginState.putInt(username.getText().toString(), 0);
+//                }
             }
         });
 
-        Button login = (Button) findViewById(R.id.lay_login_button);
-        Button register = (Button) findViewById(R.id.lay_register_button);
-        EditText username = (EditText) findViewById(R.id.txt_username);
-        EditText password = (EditText) findViewById(R.id.txt_password);
+
+//
+//        SharedPreferences getusername= getSharedPreferences("userName",MODE_PRIVATE);
+//        if (!getusername.getBoolean(username.getText().toString(),false)){
+//            login.setVisibility(View.INVISIBLE);
+//        }
+//        if(getusername.getBoolean(username.getText().toString(),false)){
+//           register.setVisibility(View.INVISIBLE);
+//            username.setText(getusername.getString("userName",username.getText().toString()));
+//        }
 
         /**
          * 点击登录按钮，验证EditView匹配规则
