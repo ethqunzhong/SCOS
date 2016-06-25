@@ -53,12 +53,12 @@ public class FoodOrderView extends Activity {
         InitDishOrderImageView();
         InitTextView();
         viewPager.setAdapter(new MyPagerAdapter());
-//        if (getIntent().getIntExtra("page_select",0)==1){
-//            viewPager.setCurrentItem(YES_ORDER);
-//        }else{
-//            viewPager.setCurrentItem(NO_ORDER);
-//        }
-        viewPager.setCurrentItem(0);
+        if (getIntent().getIntExtra("page_select",0)==1){
+            viewPager.setCurrentItem(YES_ORDER);
+        }else{
+            viewPager.setCurrentItem(NO_ORDER);
+        }
+//        viewPager.setCurrentItem(0);
         viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
 
     }

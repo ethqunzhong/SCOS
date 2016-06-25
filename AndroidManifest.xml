@@ -32,5 +32,7 @@
         </activity>
         <activity android:name=".FoodOrderView">
         </activity>
+        <activity android:name=".SCOSHelper">
+        </activity>
     </application>
 </manifest>

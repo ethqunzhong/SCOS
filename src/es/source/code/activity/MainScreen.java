@@ -89,6 +89,19 @@ public class MainScreen extends Activity {
             }
         });
 
+        /**
+         *  主界面,帮助按钮，点击进入 SCOSHelper界面
+         */
+        Button helper=(Button) findViewById(R.id.txt_helper);
+        helper.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainScreen.this,SCOSHelper.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            }
+        });
+
     }
 }
 

@@ -66,7 +66,11 @@ public class FoodView extends Activity {
             case R.id.dish_actionbar_findorder:
                 Toast.makeText(this,"查看订单",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(FoodView.this,FoodOrderView.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("from_actionbar_findorder",user);
+                intent.putExtras(bundle);
                 intent.putExtra("page_select",1);
+                //传递user
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
                 break;
