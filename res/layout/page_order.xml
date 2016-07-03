@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/div_white"
+                android:baselineAligned="false"
+                android:orientation="vertical">
+
+    <ListView
+            android:id="@+id/list_order"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp">
+    </ListView>
+
+    <LinearLayout android:layout_height="48dp"
+                  android:layout_width="match_parent"
+                  android:layout_alignParentBottom="true"
+                  android:background="@color/bg_seabule"
+                  android:orientation="horizontal"
+    >
+        <TextView
+                android:id="@+id/order_totoal_number"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:text="菜单总数"/>
+        <TextView
+                android:id="@+id/order_total_price"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:text="订单总价"/>
+        <Button
+                android:id="@+id/order_total_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="提交订单"/>
+    </LinearLayout>
+
+</RelativeLayout>

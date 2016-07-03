@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="es.source.code.activity"
-          android:versionCode="1"
-          android:versionName="1.0">
+          android:versionCode="3"
+          android:versionName="3.0">
     <permission android:label="自定义权限"
                 android:name="scos.permission.ACCESSSCOS"
                 android:description="@string/testexample"
                 android:protectionLevel="dangerous"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission  android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-sdk android:minSdkVersion="14"/> <!--指定最低版本为android 4.0-->
     <application android:label="@string/app_name"
                  android:icon="@mipmap/scoslogo"
@@ -35,5 +36,18 @@
         </activity>
         <activity android:name=".SCOSHelper">
         </activity>
+        <activity android:name=".FoodDetailed">
+        </activity>
+        <service android:name="es.source.code.service.ServerObserverService"
+                 android:process="es.source.code.observerservice"
+        >
+        </service>
+        <service android:name="es.source.code.service.UpdateService">
+        </service>
+        <receiver android:name="es.source.code.br.DeviceStartedListener">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

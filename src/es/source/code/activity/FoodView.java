@@ -1,11 +1,14 @@
 package es.source.code.activity;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.ListViewAutoScrollHelper;
@@ -16,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.*;
 import es.source.code.model.User;
+import es.source.code.service.UpdateService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,32 +54,52 @@ public class FoodView extends Activity {
     final int WINE = 3;
 
 
-    User user=new User();
+    User user = new User();
 
     /**
      * 设置item点击事件
-     * @param item  菜单item选项
+     *
+     * @param item 菜单item选项
      * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+//        Handler handler=new Handler(){
+//            @Override
+//            public boolean sendMessageAtTime(Message msg, long uptimeMillis) {
+//                return super.sendMessageAtTime(msg, uptimeMillis);
+//            }
+//        };
+        switch (item.getItemId()) {
             case R.id.dish_actionbar_ordered:
-                Toast.makeText(this,"已点菜品",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "已点菜品", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.dish_actionbar_findorder:
-                Toast.makeText(this,"查看订单",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(FoodView.this,FoodOrderView.class);
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("from_actionbar_findorder",user);
+                Toast.makeText(this, "查看订单", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(FoodView.this, FoodOrderView.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("from_actionbar_findorder", user);
                 intent.putExtras(bundle);
-                intent.putExtra("page_select",1);
+                intent.putExtra("page_select", 1);
                 //传递user
                 startActivity(intent);
-                overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                 break;
             case R.id.dish_actionbar_callforserve:
-                Toast.makeText(this,"呼叫服务",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "呼叫服务", Toast.LENGTH_SHORT).show();
+                break;
+            //启动实时更新服务
+            case R.id.dish_actionbar_update:
+                Intent noti_intent=new Intent(FoodView.this, UpdateService.class);
+                startService(noti_intent);
+                if ("停止实时更新"==item.getTitle()){
+                    Message message=new Message();
+                    message.what=0;
+                    /**
+                     *
+                     */
+                }
+                item.setTitle("停止实时更新");
                 break;
             default:
                 break;
@@ -96,7 +120,7 @@ public class FoodView extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user=(User)getIntent().getSerializableExtra("from_orderfood");
+        user = (User) getIntent().getSerializableExtra("from_orderfood");
         LayoutInflater inflater = getLayoutInflater();
         pageViews = new ArrayList<View>();
         View pageCold = inflater.inflate(R.layout.colddish_list, null);
@@ -188,6 +212,7 @@ public class FoodView extends Activity {
 
         int[][] itemPrice = {{20, 15, 10}, {15, 10, 20}, {20, 20, 20}, {30, 20, 20}};
 
+        int[][] itemStock = {{2, 2, 2}, {3, 3, 3}, {4, 4, 4}, {4, 4, 4}};
         List<ArrayList<HashMap<String, Object>>> listData = new ArrayList<ArrayList<HashMap<String, Object>>>();
 
         HashMap<String, Object> item = null;
@@ -198,6 +223,7 @@ public class FoodView extends Activity {
                 item = new HashMap<String, Object>();
                 item.put("name", itemName[i][j]);
                 item.put("price", "价格：" + itemPrice[i][j]);
+                item.put("stock","库存："+itemStock[i][j]);
                 itemList.add(item);
             }
             listData.add(itemList);
@@ -352,6 +378,7 @@ public class FoodView extends Activity {
                 viewHolder = new ViewHolder();
                 viewHolder.nameView = (TextView) convertView.findViewById(R.id.food_detail_name);
                 viewHolder.priceView = (TextView) convertView.findViewById(R.id.food_detail_price);
+                viewHolder.stockView=(TextView) convertView.findViewById(R.id.food_detail_stock);
                 viewHolder.button = (Button) convertView.findViewById(R.id.food_detail_button);
                 convertView.setTag(viewHolder);
             } else {
@@ -359,6 +386,7 @@ public class FoodView extends Activity {
             }
             viewHolder.nameView.setText((String) listData.get(index).get(i).get("name"));
             viewHolder.priceView.setText(listData.get(index).get(i).get("price").toString());
+            viewHolder.stockView.setText(listData.get(index).get(i).get("stock").toString());
             viewHolder.button.setText("点菜");
             final Button nowButton = (Button) convertView.findViewById(R.id.food_detail_button);
             nowButton.setOnClickListener(new View.OnClickListener() {
@@ -378,6 +406,7 @@ public class FoodView extends Activity {
         class ViewHolder {
             TextView nameView;
             TextView priceView;
+            TextView stockView;
             Button button;
         }
 

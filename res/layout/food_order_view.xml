@@ -8,14 +8,14 @@
                   android:background="@color/bg_white"
                   android:layout_height="48dp">
         <TextView android:id="@+id/foodorder_txt_no"
-                  android:text="未下单菜"
+                  android:text="已下单菜"
                   android:gravity="center"
                   android:layout_weight="1"
                   android:textColor="@color/bg_black"
                   android:layout_width="fill_parent"
                   android:layout_height="fill_parent"/>
         <TextView android:id="@+id/foodorder_txt_yes"
-                  android:text="已下单菜"
+                  android:text="未下单菜"
                   android:gravity="center"
                   android:layout_weight="1"
                   android:textColor="@color/bg_black"

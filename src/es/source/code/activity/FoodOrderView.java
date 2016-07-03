@@ -1,8 +1,11 @@
 package es.source.code.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,11 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import es.source.code.model.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by this.zyq on 2016/6/18.
@@ -24,11 +28,21 @@ import java.util.ArrayList;
  * @author this.zyq
  */
 public class FoodOrderView extends Activity {
+    private List<ArrayList<HashMap<String, Object>>> listData;
     final int NO_ORDER = 0;
     final int YES_ORDER = 1;
     private int bmpW;
     private int offset = 0;
     private int currIndex = 0; //当前页卡编号
+    private TextView orderNumber;
+    private TextView orderPrice;
+    private Button orderButton;
+
+    private TextView orderedNumber;
+    private TextView orderedPrice;
+    private Button orderedButton;
+    private ListView lvNOorder;
+    private ListView lvYESorder;
     private TextView textview1, textview2;
     private ViewGroup foodorderview;
     public ArrayList<View> pageViews;
@@ -42,10 +56,37 @@ public class FoodOrderView extends Activity {
         user = (User) getIntent().getSerializableExtra("from_findorder");
         LayoutInflater inflater = getLayoutInflater();
         pageViews = new ArrayList<View>();
-        View pageNOorder = inflater.inflate(R.layout.lay1, null);
-        View pageYESorder = inflater.inflate(R.layout.lay2, null);
-        pageViews.add(pageNOorder);
+        View pageYESorder = inflater.inflate(R.layout.page_ordered, null);
+        View pageNOorder = inflater.inflate(R.layout.page_order, null);
         pageViews.add(pageYESorder);
+        pageViews.add(pageNOorder);
+
+        lvYESorder = (ListView) pageYESorder.findViewById(R.id.list_ordered);
+        lvNOorder = (ListView) pageNOorder.findViewById(R.id.list_order);
+        listData = getListData();
+        lvYESorder.setAdapter(new CustomAdapter(this, LayoutInflater.from(this), YES_ORDER));
+        lvNOorder.setAdapter(new CustomAdapter(this, LayoutInflater.from(this), NO_ORDER));
+
+        orderedNumber = (TextView) pageYESorder.findViewById(R.id.ordered_totoal_number);
+        orderedNumber.setText("菜单总数：12");
+        orderedPrice = (TextView) pageYESorder.findViewById(R.id.ordered_total_price);
+        orderedPrice.setText("订单总价：22");
+        orderedButton = (Button) pageYESorder.findViewById(R.id.ordered_total_button);
+        orderedButton.setText("结账");
+        orderedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(FoodOrderView.this, "您好，老顾客，本次你可享受7折优惠", Toast.LENGTH_SHORT).show();
+                new PayTask().execute();
+            }
+        });
+
+        orderNumber = (TextView) pageNOorder.findViewById(R.id.order_totoal_number);
+        orderNumber.setText("菜单总数： 8");
+        orderPrice = (TextView) pageNOorder.findViewById(R.id.order_total_price);
+        orderPrice.setText("订单总价：240");
+        orderButton = (Button) pageNOorder.findViewById(R.id.order_total_button);
+        orderButton.setText("提交订单");
 
         foodorderview = (ViewGroup) inflater.inflate(R.layout.food_order_view, null);
         viewPager = (ViewPager) foodorderview.findViewById(R.id.dishorder_viewpager);
@@ -53,13 +94,107 @@ public class FoodOrderView extends Activity {
         InitDishOrderImageView();
         InitTextView();
         viewPager.setAdapter(new MyPagerAdapter());
-        if (getIntent().getIntExtra("page_select",0)==1){
-            viewPager.setCurrentItem(YES_ORDER);
-        }else{
-            viewPager.setCurrentItem(NO_ORDER);
-        }
-//        viewPager.setCurrentItem(0);
+//        if (getIntent().getIntExtra("page_select", 0) == 1) {
+//            viewPager.setCurrentItem(YES_ORDER);
+//        } else {
+//            viewPager.setCurrentItem(NO_ORDER);
+//        }
+        viewPager.setCurrentItem(0);
         viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
+
+    }
+
+    public List<ArrayList<HashMap<String, Object>>> getListData() {
+        String[][] itemName = {{"凉拌西红柿", "啤酒鸭", "麻辣小龙虾", "青岛啤酒"}, {"五粮液", "姜汁鲍鱼", "黑椒牛排", "皮蛋"}};
+
+        int[][] itemPrice = {{18, 18, 22, 22}, {32, 32, 44, 44}};
+
+        int[][] itemNumber = {{4, 4, 4, 4}, {2, 2, 2, 2}};
+
+        String[][] itemAddition = {{"好吃", "好吃", "好吃", "很好吃"}, {"美味", "美味", "很美味", "很美味"}};
+
+        List<ArrayList<HashMap<String, Object>>> listData = new ArrayList<ArrayList<HashMap<String, Object>>>();
+
+        HashMap<String, Object> item = null;
+        ArrayList<HashMap<String, Object>> itemList = null;
+        for (int i = 0; i < 2; i++) {
+            itemList = new ArrayList<HashMap<String, Object>>();
+            for (int j = 0; j < 4; j++) {
+                item = new HashMap<String, Object>();
+                item.put("name", itemName[i][j]);
+                item.put("price", "价格：" + itemPrice[i][j]);
+                item.put("number", "数量：" + itemNumber[i][j]);
+                item.put("addition", itemAddition[i][j]);
+                itemList.add(item);
+            }
+            listData.add(itemList);
+        }
+        return listData;
+    }
+
+    class CustomAdapter extends BaseAdapter {
+        Context context;
+        LayoutInflater layoutInflater;
+        int index;
+
+        CustomAdapter(Context context, LayoutInflater layoutInflater, int index) {
+            this.context = context;
+            this.layoutInflater = layoutInflater;
+            this.index = index;
+        }
+
+        @Override
+        public int getCount() {
+            return listData.get(index).size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return listData.get(index).get(position);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder = null;
+            if (convertView == null) {
+                if (index == NO_ORDER) {
+                    convertView = layoutInflater.inflate(R.layout.order_item, null);
+                    viewHolder = new ViewHolder();
+                    viewHolder.nameView = (TextView) convertView.findViewById(R.id.item_order_name);
+                    viewHolder.priceView = (TextView) convertView.findViewById(R.id.item_order_price);
+                    viewHolder.numberView = (TextView) convertView.findViewById(R.id.item_order_number);
+                    viewHolder.additionView = (TextView) convertView.findViewById(R.id.item_order_addition);
+                    convertView.setTag(viewHolder);
+                } else if (index == YES_ORDER) {
+                    convertView = layoutInflater.inflate(R.layout.ordered_item, null);
+                    viewHolder = new ViewHolder();
+                    viewHolder.nameView = (TextView) convertView.findViewById(R.id.item_ordered_name);
+                    viewHolder.priceView = (TextView) convertView.findViewById(R.id.item_ordered_price);
+                    viewHolder.numberView = (TextView) convertView.findViewById(R.id.item_ordered_number);
+                    viewHolder.additionView = (TextView) convertView.findViewById(R.id.item_ordered_addition);
+                    convertView.setTag(viewHolder);
+                }
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            viewHolder.nameView.setText((String) listData.get(index).get(i).get("name"));
+            viewHolder.priceView.setText(listData.get(index).get(i).get("price").toString());
+            viewHolder.numberView.setText(listData.get(index).get(i).get("number").toString());
+            viewHolder.additionView.setText((String) listData.get(index).get(i).get("addition"));
+            return convertView;
+        }
+
+        class ViewHolder {
+            TextView nameView;
+            TextView priceView;
+            TextView numberView;
+            TextView additionView;
+        }
 
     }
 
@@ -147,6 +282,46 @@ public class FoodOrderView extends Activity {
             animation.setFillAfter(true);
             animation.setDuration(300);
             imageView.startAnimation(animation);
+        }
+    }
+
+    class PayTask extends AsyncTask<Void, Integer, Boolean> {
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(FoodOrderView.this);
+            progressDialog.setTitle("正在付账");
+            progressDialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            for (int i = 0; i < 6; i++) {
+                int payPercent = 100 / 6 * i;
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                publishProgress(payPercent);
+            }
+            return true;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setMessage(values[0] + "%");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            progressDialog.dismiss();
+            if (result) {
+                Toast.makeText(FoodOrderView.this, "付账成功,积分增加", Toast.LENGTH_SHORT).show();
+                orderedButton.setEnabled(false);
+            }
         }
     }
 }

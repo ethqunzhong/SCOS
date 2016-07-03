@@ -9,4 +9,7 @@
     <item android:id="@+id/dish_actionbar_callforserve"
           android:title="呼叫服务"
           android:showAsAction="never"/>
+    <item android:id="@+id/dish_actionbar_update"
+          android:showAsAction="never"
+          android:title="启动实时更新"/>
 </menu>
